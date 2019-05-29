@@ -19,32 +19,32 @@
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Vertical" Grid.Row="0" Margin="10,1,0,0">
             <Label Content="Кодируемое сообщение:"/>
-            <TextBox x:Name="tbMessage" TextWrapping="Wrap" Margin="0,0,20,0" Height="80"/>
+            <TextBox x:Name="tbMessageEncode" TextWrapping="Wrap" Margin="0,0,20,0" Height="80" />
         </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="1" Margin="10,0,0,0">
             <Label Content="Ключ:"/>
-            <TextBox x:Name="tbKey" TextWrapping="Wrap" Text="" Height="19" Margin="0,0,150,0"/>
+            <TextBox x:Name="tbKeyEncode" TextWrapping="Wrap" Text="" Height="19" Margin="0,0,150,0"/>
         </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="2" Margin="10,0,0,0">
             <Label Content="Результат:"/>
-            <TextBox x:Name="tbResult" TextWrapping="Wrap" Margin="0,0,20,0" Height="80"/>
+            <TextBox x:Name="tbResultEncode" TextWrapping="Wrap" Margin="0,0,20,0" Height="80"/>
         </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="2" Margin="10,0,0,0">
             <Label Content="Декодируемая послед:"/>
-            <TextBox x:Name="tbMessageScramb" TextWrapping="Wrap" Margin="0,0,20,0" Height="80"/>
+            <TextBox x:Name="tbMessageDecode" TextWrapping="Wrap" Margin="0,0,20,0" Height="80"/>
         </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="2" Margin="10,0,0,0">
             <Label Content="Ключ:"/>
-            <TextBox x:Name="tbKeyScramb" TextWrapping="Wrap" Margin="0,0,150,0"/>
+            <TextBox x:Name="tbKeyDecode" TextWrapping="Wrap" Margin="0,0,150,0"/>
         </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="2" Margin="10,0,0,0">
             <Label Content="Сообщение:"/>
-            <TextBox x:Name="tbResultScramb" TextWrapping="Wrap" Margin="0,0,20,0" Height="80"/>
+            <TextBox x:Name="tbResultDecode" TextWrapping="Wrap" Margin="0,0,20,0" Height="80"/>
         </StackPanel>
-        <Button x:Name="buttonScrumb" Grid.Row="1" Grid.Column="1" Background="#FF64DC90" Margin="10,16,5,10" >
-            <Canvas Width="24" Height="24">
-                <Path Data="M4,15V9H12V4.16L19.84,12L12,19.84V15H4Z" Fill="Black" />
-            </Canvas>
+            <Canvas Width="24" Height="24" Grid.Row="1" Grid.Column="1" >
+            <Button x:Name="buttonScrumb" Grid.Row="1" Grid.Column="1" Background="LightBlue" BorderThickness="0" Click="BtnScrumb_click">
+                <Path Data="M4,15V9H12V4.16L19.84,12L12,19.84V15H4Z" Fill="Black"  />
         </Button>
+            </Canvas>
     </Grid>
 </Window>
