@@ -1,19 +1,80 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Scrambler
 {
-    public class ScramblerViewModel
+    public class ScramblerViewModel : INotifyPropertyChanged
     {
-        public string DecodeText { get; set; }
-        public string EncodeText { get; set; }
-        public string Key { get; set; }
-        public string ResultEncode { get; set; }
-        public string ResultDecode { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private string _encodeMessage = "";
+        private string _keyEncode = "";
+        private string _resultEncode = "";
+
+        private string _decodeMessage = "";
+        private string _keyDecode = "";
+
+
+        public string EncodeMessage
+        {
+            get { return _encodeMessage; }
+            set
+            {
+                _encodeMessage = value;
+                OnPropertyChanged("KeyEncode");
+                OnPropertyChanged("ResultEncode");
+            }
+        }
+
+        public string KeyEncode
+        {
+            get { return GetKey(_encodeMessage); }
+            set { _keyEncode = value; }
+        }
+
+        public string ResultEncode
+        {
+            get { return Encode(EncodeMessage); }
+            set { _resultEncode = value; }
+        }
+
+
+        public string DecodeMessage
+        {
+            get { return _decodeMessage; }
+            set
+            {
+                _decodeMessage = value;
+                OnPropertyChanged("ResultDecode");
+            }
+        }
+
+        public string KeyDecode
+        {
+            get { return _keyDecode; }
+            set
+            {
+                _keyDecode = value;
+                OnPropertyChanged("ResultDecode");
+            }
+        }
+
+        public string ResultDecode
+        {
+            get { return Decode(_decodeMessage, _keyDecode); }
+        }
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public static readonly Dictionary<string, string> encodeDictionary = new Dictionary<string, string>
         {
@@ -25,7 +86,20 @@ namespace Scrambler
             {"R", "1011"}, {"U", "00010"}, {"J", "110100000"},
             {"I", "1010"}, {"G", "00001"}, {"Q", "1101000101"},
             {"S", "0110"}, {"Y", "00000"}, {"Z", "1101000100"},
-            {"H", "0101"}, {"P", "110101"},
+            {"H", "0101"}, {"P", "110101"}, {" ", " "}
+        };
+
+        public static readonly Dictionary<string, string> decodeDictionary = new Dictionary<string, string>
+        {
+            {"100", "E"},  {"11011", "D"}, {"011101", "W"},
+            {"001", "T"},  {"01111", "L"}, {"011100", "B"},
+            {"1111", "A"}, {"01001", "F"}, {"1101001", "V"},
+            {"1110", "O"}, {"01000", "C"}, {"110100011", "K"},
+            {"1100", "N"}, {"00011", "M"}, {"110100001", "X"},
+            {"1011", "R"}, {"00010", "U"}, {"110100000", "J"},
+            {"1010", "I"}, {"00001", "G"}, {"1101000101", "Q"},
+            {"0110", "S"}, {"00000", "Y"}, {"1101000100", "Z"},
+            {"0101", "H"}, {"110101", "P"}, {" ", " "}
         };
 
         public ScramblerViewModel()
@@ -40,7 +114,13 @@ namespace Scrambler
 
             foreach (var i in text)
             {
-                result += encodeDictionary[i.ToString()];
+                try
+                {
+                    result += encodeDictionary[i.ToString()];
+                }
+                catch (Exception)
+                {
+                }
             }
 
             return result;
@@ -53,7 +133,13 @@ namespace Scrambler
 
             foreach (var i in text)
             {
-                key += encodeDictionary[i.ToString()].Length.ToString();
+                try
+                {
+                    key += encodeDictionary[i.ToString()].Length.ToString();
+                }
+                catch (Exception)
+                {
+                }
             }
 
             return key;
@@ -63,20 +149,25 @@ namespace Scrambler
         {
             int index = 0;
             string result = "";
-            char[] keyArray = key.ToCharArray();
-            foreach (var i in keyArray)
+                    string text = "";
+            for (int i = 0; i < key.Length; i++)
             {
-
-                char[] text = message.ToUpper().ToCharArray(index, i);
-                index += i;
-
-                foreach (var s in text)
+                try
                 {
-                    result += encodeDictionary[s.ToString()].Length.ToString(); // работает по ключу, а нужно по значению. Либо поменять словарь.
+                    int l = int.Parse(key[i].ToString());
+                    text = message.Substring(index, l);
+                    index += l;
+
+                    result += decodeDictionary[text];
+
+                }
+                catch (Exception)
+                {
+
                 }
             }
 
-            return result.ToString();
+            return result;
         }
     }
 }

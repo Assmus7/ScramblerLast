@@ -27,10 +27,9 @@ namespace Scrambler
 
         public void BtnScrumb_click(object sender, RoutedEventArgs e)
         {
-
-            //tbMessageDecode.Text= tbResultEncode.Text;
-            tbResultEncode.Text = ScramblerViewModel.Encode(tbMessageEncode.Text);
-            tbKeyEncode.Text = ScramblerViewModel.GetKey(tbMessageEncode.Text);
+            tbKeyDecode.Text = tbKeyEncode.Text;
         }
+
+        
     }
 }
